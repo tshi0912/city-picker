@@ -147,12 +147,12 @@
                 var $dropdown;
                 var $span;
                 if ($target.is('.city-picker-span')) {
-                    $span = $target
+                    $span = $target;
                 }else if($target.is('.city-picker-span *')){
                     $span = $target.parents('.city-picker-span');
                 }
                 if ($target.is('.city-picker-dropdown')) {
-                    $dropdown = $target
+                    $dropdown = $target;
                 }else if($target.is('.city-picker-dropdown *')){
                     $dropdown = $target.parents('.city-picker-dropdown');
                 }

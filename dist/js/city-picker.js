@@ -1,11 +1,11 @@
 /*!
- * CityPicker v1.0.0
+ * CityPicker v1.0.2
  * https://github.com/tshi0912/citypicker
  *
  * Copyright (c) 2015-2016 Tao Shi
  * Released under the MIT license
  *
- * Date: 2016-02-27T12:42:08.662Z
+ * Date: 2016-02-27T12:50:45.340Z
  */
 
 (function (factory) {

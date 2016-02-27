@@ -1,11 +1,11 @@
 /*!
  * Distpicker v1.0.0
- * https://github.com/fengyuanchen/distpicker
+ * https://github.com/tshi0912/city-picker
  *
- * Copyright (c) 2014-2016 Fengyuan Chen
+ * Copyright (c) 2014-2016 Tao Shi
  * Released under the MIT license
  *
- * Date: 2016-02-27T07:37:54.346Z
+ * Date: 2016-02-27T07:49:03.969Z
  */
 
 (function (factory) {

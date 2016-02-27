@@ -35,7 +35,7 @@ gulp.task('jscs', function () {
         .pipe(plugins.jscs());
 });
 
-gulp.task('js', ['jshint', 'jscs'], function () {
+gulp.task('js', ['jshint', 'jscs', 'copy'], function () {
     return gulp.src(scripts.src)
         .pipe(plugins.replace(/@\w+/g, function (placeholder) {
             switch (placeholder) {
@@ -90,7 +90,7 @@ gulp.task('docs', function () {
 });
 
 gulp.task('release', ['js', 'docs'], function () {
-    return gulp.src('dist/*')
+    return gulp.src('dist/**/*')
         .pipe(gulp.dest('_releases/' + pkg.version));
 });
 

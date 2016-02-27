@@ -1,8 +1,8 @@
 /*!
  * Distpicker v@VERSION
- * https://github.com/fengyuanchen/distpicker
+ * https://github.com/tshi0912/city-picker
  *
- * Copyright (c) 2014-@YEAR Fengyuan Chen
+ * Copyright (c) 2014-@YEAR Tao Shi
  * Released under the MIT license
  *
  * Date: @DATE

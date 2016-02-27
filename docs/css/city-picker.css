@@ -1,16 +1,17 @@
 .city-picker-input {
     opacity: 0 !important;
+    display: none !important;
+    visibility: hidden !important;
 }
 
 .city-picker-span {
-    position: absolute;
-    left: -9999px;
-    top: -9999px;
+    position: relative;
+    display: block;
     outline: 0;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     border-bottom: 1px solid #ccc;
     background-color: #fff;
-    color: #eee;
+    color: #ccc;
     cursor: pointer;
 }
 .city-picker-span > .placeholder{
@@ -54,6 +55,7 @@
     z-index: 999999;
     display: none;
     min-width: 330px;
+    margin-bottom: 20px;
 }
 
 .city-select-wrap{

@@ -152,22 +152,30 @@
             };
         },
 
-        getSize: function($dom){
-            var $wrap = $("<div />").appendTo($("body"));
-            $wrap.css({
-                "position":   "absolute !important",
-                "visibility": "hidden !important",
-                "display":    "block !important"
-            });
+        getSize: function ($dom) {
+            var $wrap, $clone, sizes;
+            if (!$dom.is(':visible')) {
+                $wrap = $("<div />").appendTo($("body"));
+                $wrap.css({
+                    "position": "absolute !important",
+                    "visibility": "hidden !important",
+                    "display": "block !important"
+                });
 
-            var $clone = $dom.clone().appendTo($wrap);
+                $clone = $dom.clone().appendTo($wrap);
 
-            var sizes = {
-                width: $clone.outerWidth(true),
-                height: $clone.outerHeight(true)
-            };
+                sizes = {
+                    width: $clone.outerWidth(),
+                    height: $clone.outerHeight()
+                };
 
-            $wrap.remove();
+                $wrap.remove();
+            } else {
+                sizes = {
+                    width: $dom.outerWidth(),
+                    height: $dom.outerHeight()
+                };
+            }
 
             return sizes;
         },

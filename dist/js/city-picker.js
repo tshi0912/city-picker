@@ -5,7 +5,7 @@
  * Copyright (c) 2015-2016 Tao Shi
  * Released under the MIT license
  *
- * Date: 2016-02-27T10:01:14.271Z
+ * Date: 2016-02-27T10:02:21.039Z
  */
 
 (function (factory) {
@@ -147,12 +147,12 @@
                 var $dropdown;
                 var $span;
                 if ($target.is('.city-picker-span')) {
-                    $span = $target
+                    $span = $target;
                 }else if($target.is('.city-picker-span *')){
                     $span = $target.parents('.city-picker-span');
                 }
                 if ($target.is('.city-picker-dropdown')) {
-                    $dropdown = $target
+                    $dropdown = $target;
                 }else if($target.is('.city-picker-dropdown *')){
                     $dropdown = $target.parents('.city-picker-dropdown');
                 }

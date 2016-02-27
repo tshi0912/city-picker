@@ -142,6 +142,28 @@
         bind: function () {
             var $this = this;
 
+            $(document).on('click', (this._mouteclick = function (e) {
+                var $target = $(e.target);
+                var $dropdown;
+                var $span;
+                if ($target.is('.city-picker-span')) {
+                    $span = $target
+                }else if($target.is('.city-picker-span *')){
+                    $span = $target.parents('.city-picker-span');
+                }
+                if ($target.is('.city-picker-dropdown')) {
+                    $dropdown = $target
+                }else if($target.is('.city-picker-dropdown *')){
+                    $dropdown = $target.parents('.city-picker-dropdown');
+                }
+                if( (!$span && !$dropdown) ||
+                    ($span && $span.get(0) !== $this.$textspan.get(0)) ||
+                    ($dropdown && $dropdown.get(0) !== $this.$dropdown.get(0))){
+                    $this.close();
+                }
+
+            }));
+
             this.$element.on('change', (this._changeElement = $.proxy(function () {
                 this.close();
                 this.refresh(true);
@@ -215,6 +237,8 @@
         },
 
         unbind: function () {
+
+            $(document).off('click', this._mouteclick);
 
             this.$element.off('change', this._changeElement);
 
@@ -396,7 +420,7 @@
                 return address.replace(/[省,市,自治区,壮族,回族,维吾尔]/g, '');
             } else if (type === CITY) {
                 return address.replace(/[市,地区,回族,蒙古,苗族,白族,傣族,景颇族,藏族,彝族,壮族,傈僳族,布依族,侗族]/g, '')
-                    .replace('哈萨克','').replace('自治州', '').replace(/自治县/,'');
+                    .replace('哈萨克', '').replace('自治州', '').replace(/自治县/, '');
             } else if (type === DISTRICT) {
                 return address.length > 2 ? address.replace(/[市,区,县,旗]/g, '') : address;
             }

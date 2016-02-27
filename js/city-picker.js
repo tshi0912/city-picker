@@ -59,13 +59,14 @@
         render: function () {
             var p = this.getPosition(),
                 placeholder = this.$element.attr('placeholder') || this.options.placeholder,
-                textspan = '<span class="city-picker-span" style="left:' +
-                    p.left + 'px;top:' + p.top + 'px;' + this.getWidthStyle(p.width) + 'height:' +
-                    p.height + 'px;line-height:' + p.height + 'px;">' +
+                textspan = '<span class="city-picker-span" style="' +
+                    this.getWidthStyle(p.width) + 'height:' +
+                    p.height + 'px;line-height:' + (p.height - 1) + 'px;">' +
                     (placeholder ? '<span class="placeholder">' + placeholder + '</span>' : '') +
                     '<span class="title"></span><div class="arrow"></div>' + '</span>',
-                dropdown = '<div class="city-picker-dropdown" style="left:' +
-                    p.left + 'px;top:' + (p.top + p.height) + 'px;' + this.getWidthStyle(p.width, true) + '">' +
+
+                dropdown = '<div class="city-picker-dropdown" style="left:0px;top:100%;' +
+                    this.getWidthStyle(p.width, true) + '">' +
                     '<div class="city-select-wrap">' +
                     '<div class="city-select-tab">' +
                     '<a class="active" data-count="province">省份</a>' +
@@ -76,6 +77,7 @@
                     (this.includeDem('city') ? '<div class="city-select city" data-count="city"></div>' : '') +
                     (this.includeDem('district') ? '<div class="city-select district" data-count="district"></div>' : '') +
                     '</div></div>';
+
             this.$element.addClass('city-picker-input');
             this.$textspan = $(textspan).insertAfter(this.$element);
             this.$dropdown = $(dropdown).insertAfter(this.$textspan);
@@ -126,16 +128,13 @@
         },
 
         getPosition: function () {
-            var p, h, w, pw;
+            var p, h, w, s, pw;
             p = this.$element.position();
-            h = this.$element.innerHeight();
-            w = this.$element.innerWidth();
-            h = (h + parseInt(this.$element.css('borderTopWidth'), 10) +
-                parseInt(this.$element.css('borderTopWidth'), 10)) || 0;
-            w = (w + parseInt(this.$element.css('borderLeftWidth'), 10) +
-                parseInt(this.$element.css('borderRightWidth'), 10)) || 0;
+            s = this.getSize(this.$element);
+            h = s.height;
+            w = s.width;
             if (this.options.responsive) {
-                pw = this.$element.parent().innerWidth();
+                pw = this.$element.offsetParent().width();
                 if (pw) {
                     w = w / pw;
                     if (w > 0.99) {
@@ -151,6 +150,34 @@
                 height: h,
                 width: w
             };
+        },
+
+        getSize: function ($dom) {
+            var $wrap, $clone, sizes;
+            if (!$dom.is(':visible')) {
+                $wrap = $("<div />").appendTo($("body"));
+                $wrap.css({
+                    "position": "absolute !important",
+                    "visibility": "hidden !important",
+                    "display": "block !important"
+                });
+
+                $clone = $dom.clone().appendTo($wrap);
+
+                sizes = {
+                    width: $clone.outerWidth(),
+                    height: $clone.outerHeight()
+                };
+
+                $wrap.remove();
+            } else {
+                sizes = {
+                    width: $dom.outerWidth(),
+                    height: $dom.outerHeight()
+                };
+            }
+
+            return sizes;
         },
 
         getWidthStyle: function (w, dropdown) {

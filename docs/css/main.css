@@ -116,6 +116,7 @@
 
 .docs-footer {
   overflow: hidden;
+  margin-bottom: 300px;
 }
 
 .hearts {
@@ -153,6 +154,10 @@
   padding-right: 8px;
   background-color: #fff;
   content: "♥";
+}
+
+input{
+  min-width: 360px;
 }
 
 

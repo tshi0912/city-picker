@@ -120,14 +120,14 @@ Make the address level more simple, e.g. `内蒙古` instead of `内蒙古自治
 ### level
 
 - Type: `String`
-- Default: ``
+- Default: `district`
 
 Only province, province + city, or province + city + district.
 
 ### placeholder
 
 - Type: `Boolean`
-- Default: `true`
+- Default: `请输入省/市/区`
 
 Show placeholder (with an `<option>` element).
 
@@ -135,7 +135,7 @@ Show placeholder (with an `<option>` element).
 ### province
 
 - Type: `String`
-- Default: ``
+- Default: `null`
 
 Defines the initial value of province. If it is a existing province in `city-picker.data.js`, it will be selected. If not, it will be used as a placeholder.
 
@@ -143,7 +143,7 @@ Defines the initial value of province. If it is a existing province in `city-pic
 ### city
 
 - Type: `String`
-- Default: ``
+- Default: `null`
 
 Defines the initial value of city. If it is a existing city under the selected province, it will be selected. If not, it will be used as a placeholder.
 
@@ -151,7 +151,7 @@ Defines the initial value of city. If it is a existing city under the selected p
 ### district
 
 - Type: `String`
-- Default: ``
+- Default: `null`
 
 Defines the initial value of district. If it is a existing district under the selected city, it will be selected. If not, it will be used as a placeholder.
 

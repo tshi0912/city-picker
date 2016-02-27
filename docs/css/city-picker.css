@@ -53,6 +53,7 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     z-index: 999999;
     display: none;
+    min-width: 330px;
 }
 
 .city-select-wrap{
@@ -113,9 +114,8 @@
 
 .city-select dt {
     position: absolute;
-    width: 30px;
-    margin-right: 10px;
-    font-weight: 700;
+    width: 2.5em;
+    font-weight: 500;
     text-align: right;
     line-height: 2;
 }
@@ -126,7 +126,7 @@
 }
 
 .city-select.province dd {
-    margin-left: 40px;
+    margin-left: 3em;
 }
 
 .city-select a {

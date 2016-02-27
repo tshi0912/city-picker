@@ -74,6 +74,14 @@ Custom placeholders
 </div>
 ```
 
+Responsive width
+
+```html
+<div style="position:relative;">
+  <input readonly type="text" data-toggle="city-picker" data-responsive="true" style="width:50%;">
+</div>
+```
+
 
 Custom province/city/district
 
@@ -113,7 +121,7 @@ $('#target').citypicker({
 ### simple
 
 - Type: `Boolean`
-- Default: `true`
+- Default: `false`
 
 Make the address level more simple, e.g. `内蒙古` instead of `内蒙古自治区`.
 
@@ -123,6 +131,13 @@ Make the address level more simple, e.g. `内蒙古` instead of `内蒙古自治
 - Default: `district`
 
 Only province, province + city, or province + city + district.
+
+### responsive
+
+- Type: `Boolean`
+- Default: `false`
+
+make the drop down and mask span responsive on width.
 
 ### placeholder
 

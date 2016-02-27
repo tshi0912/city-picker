@@ -60,12 +60,12 @@
             var p = this.getPosition(),
                 placeholder = this.$element.attr('placeholder') || this.options.placeholder,
                 textspan = '<span class="city-picker-span" style="left:' +
-                    p.left + 'px;top:' + p.top + 'px;width:' + p.width + 'px;height:' +
+                    p.left + 'px;top:' + p.top + 'px;' + this.getWidthStyle(p.width) + 'height:' +
                     p.height + 'px;line-height:' + p.height + 'px;">' +
                     (placeholder ? '<span class="placeholder">' + placeholder + '</span>' : '') +
                     '<span class="title"></span><div class="arrow"></div>' + '</span>',
                 dropdown = '<div class="city-picker-dropdown" style="left:' +
-                    p.left + 'px;top:' + (p.top + p.height - 1 ) + 'px;width:' + Math.max(320, p.width) + 'px;">' +
+                    p.left + 'px;top:' + (p.top + p.height) + 'px;' + this.getWidthStyle(p.width, true) + '">' +
                     '<div class="city-select-wrap">' +
                     '<div class="city-select-tab">' +
                     '<a class="active" data-count="province">省份</a>' +
@@ -126,17 +126,39 @@
         },
 
         getPosition: function () {
-            var p = this.$element.position();
-            var h = this.$element.innerHeight();
-            var w = this.$element.innerWidth();
+            var p, h, w, pw;
+            p = this.$element.position();
+            h = this.$element.innerHeight();
+            w = this.$element.innerWidth();
+            h = (h + parseInt(this.$element.css('borderTopWidth'), 10) +
+                parseInt(this.$element.css('borderTopWidth'), 10)) || 0;
+            w = (w + parseInt(this.$element.css('borderLeftWidth'), 10) +
+                parseInt(this.$element.css('borderRightWidth'), 10)) || 0;
+            if (this.options.responsive) {
+                pw = this.$element.parent().innerWidth();
+                if (pw) {
+                    w = w / pw;
+                    if (w > 0.99) {
+                        w = 1;
+                    }
+                    w = w * 100 + '%';
+                }
+            }
+
             return {
                 top: p.top || 0,
                 left: p.left || 0,
-                height: (h + parseInt(this.$element.css('borderTopWidth'), 10) +
-                parseInt(this.$element.css('borderTopWidth'), 10)) || 0,
-                width: (w + parseInt(this.$element.css('borderLeftWidth'), 10) +
-                parseInt(this.$element.css('borderRightWidth'), 10)) || 0
+                height: h,
+                width: w
             };
+        },
+
+        getWidthStyle: function (w, dropdown) {
+            if (this.options.responsive && !$.isNumeric(w)) {
+                return 'width:' + w + ';';
+            } else {
+                return 'width:' + (dropdown ? Math.max(320, w) : w) + 'px;';
+            }
         },
 
         bind: function () {
@@ -148,17 +170,17 @@
                 var $span;
                 if ($target.is('.city-picker-span')) {
                     $span = $target;
-                }else if($target.is('.city-picker-span *')){
+                } else if ($target.is('.city-picker-span *')) {
                     $span = $target.parents('.city-picker-span');
                 }
                 if ($target.is('.city-picker-dropdown')) {
                     $dropdown = $target;
-                }else if($target.is('.city-picker-dropdown *')){
+                } else if ($target.is('.city-picker-dropdown *')) {
                     $dropdown = $target.parents('.city-picker-dropdown');
                 }
-                if( (!$span && !$dropdown) ||
+                if ((!$span && !$dropdown) ||
                     ($span && $span.get(0) !== $this.$textspan.get(0)) ||
-                    ($dropdown && $dropdown.get(0) !== $this.$dropdown.get(0))){
+                    ($dropdown && $dropdown.get(0) !== $this.$dropdown.get(0))) {
                     $this.close();
                 }
 
@@ -453,6 +475,7 @@
 
     CityPicker.DEFAULTS = {
         simple: false,
+        responsive: false,
         placeholder: '请选择省/市/区',
         level: 'district',
         province: '',

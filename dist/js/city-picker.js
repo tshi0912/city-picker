@@ -5,7 +5,7 @@
  * Copyright (c) 2015-2016 Tao Shi
  * Released under the MIT license
  *
- * Date: 2016-02-29T03:33:20.244Z
+ * Date: 2016-02-29T11:53:34.952Z
  */
 
 (function (factory) {
@@ -212,24 +212,21 @@
                     ($span && $span.get(0) !== $this.$textspan.get(0)) ||
                     ($input && $input.get(0) !== $this.$element.get(0)) ||
                     ($dropdown && $dropdown.get(0) !== $this.$dropdown.get(0))) {
-                    console.log('close.......');
-                    console.log(e.target);
-                    $this.close();
+                    $this.close(true);
                 }
 
             }));
 
             this.$element.on('change', (this._changeElement = $.proxy(function () {
-                this.close();
+                this.close(true);
                 this.refresh(true);
             }, this))).on('focus', (this._focusElement = $.proxy(function (e) {
                 this.needBlur = true;
                 this.open();
             }, this))).on('blur', (this._focusElement = $.proxy(function (e) {
                 if (this.needBlur) {
-                    console.log('blur....');
                     this.needBlur = false;
-                    this.close();
+                    this.close(true);
                 }
             }, this)));
 
@@ -295,13 +292,16 @@
         open: function (type) {
             type = type || PROVINCE;
             this.$dropdown.show();
-            this.$textspan.addClass('open');
+            this.$textspan.addClass('open').addClass('focus');
             this.tab(type);
         },
 
-        close: function () {
+        close: function (blur) {
             this.$dropdown.hide();
             this.$textspan.removeClass('open');
+            if (blur) {
+                this.$textspan.removeClass('focus');
+            }
         },
 
         unbind: function () {

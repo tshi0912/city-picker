@@ -5,7 +5,7 @@
  * Copyright (c) 2015-2016 Tao Shi
  * Released under the MIT license
  *
- * Date: 2016-02-29T11:53:34.952Z
+ * Date: 2016-02-29T12:11:36.477Z
  */
 
 (function (factory) {
@@ -220,10 +220,10 @@
             this.$element.on('change', (this._changeElement = $.proxy(function () {
                 this.close(true);
                 this.refresh(true);
-            }, this))).on('focus', (this._focusElement = $.proxy(function (e) {
+            }, this))).on('focus', (this._focusElement = $.proxy(function () {
                 this.needBlur = true;
                 this.open();
-            }, this))).on('blur', (this._focusElement = $.proxy(function (e) {
+            }, this))).on('blur', (this._blurElement = $.proxy(function () {
                 if (this.needBlur) {
                     this.needBlur = false;
                     this.close(true);
@@ -309,10 +309,14 @@
             $(document).off('click', this._mouteclick);
 
             this.$element.off('change', this._changeElement);
+            this.$element.off('focus', this._focusElement);
+            this.$element.off('blur', this._blurElement);
 
             this.$textspan.off('click');
+            this.$textspan.off('mousedown');
 
             this.$dropdown.off('click');
+            this.$dropdown.off('mousedown');
 
             if (this.$province) {
                 this.$province.off(EVENT_CHANGE, this._changeProvince);

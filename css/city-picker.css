@@ -1,7 +1,8 @@
 .city-picker-input {
     opacity: 0 !important;
-    display: none !important;
-    visibility: hidden !important;
+    top: -9999px;
+    left: -9999px;
+    position: absolute;
 }
 
 .city-picker-span {
@@ -14,10 +15,12 @@
     color: #ccc;
     cursor: pointer;
 }
-.city-picker-span > .placeholder{
+
+.city-picker-span > .placeholder {
     color: #aaa;
 }
-.city-picker-span > .arrow{
+
+.city-picker-span > .arrow {
     position: absolute;
     top: 50%;
     right: 8px;
@@ -27,11 +30,12 @@
     background: url(../images/drop-arrow.png) -10px -25px no-repeat;
 }
 
-.city-picker-span.open{
+.city-picker-span.focus,
+.city-picker-span.open {
     border-bottom-color: #46A4FF;
 }
 
-.city-picker-span.open > .arrow{
+.city-picker-span.open > .arrow {
     background-position: -10px -10px;
 }
 
@@ -40,10 +44,10 @@
     padding: 5px;
     border-radius: 3px;
 }
+
 .city-picker-span > .title > span:hover {
     background-color: #f1f8ff;
 }
-
 
 .city-picker-dropdown {
     position: absolute;
@@ -58,8 +62,8 @@
     margin-bottom: 20px;
 }
 
-.city-select-wrap{
-    box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+.city-select-wrap {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
 }
 
 .city-select-tab {
@@ -88,7 +92,7 @@
     color: #46A4FF;
 }
 
-.city-select-tab > a:first-child{
+.city-select-tab > a:first-child {
     border-left: none;
 }
 

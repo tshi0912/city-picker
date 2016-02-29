@@ -5,7 +5,7 @@
  * Copyright (c) 2014-2016 Tao Shi
  * Released under the MIT license
  *
- * Date: 2016-02-27T12:50:45.336Z
+ * Date: 2016-02-29T03:33:20.241Z
  */
 
 (function (factory) {

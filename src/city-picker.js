@@ -39,6 +39,7 @@
         this.options = $.extend({}, CityPicker.DEFAULTS, $.isPlainObject(options) && options);
         this.active = false;
         this.dems = [];
+        this.needBlur = false;
         this.init();
     }
 
@@ -193,21 +194,26 @@
 
             $(document).on('click', (this._mouteclick = function (e) {
                 var $target = $(e.target);
-                var $dropdown;
-                var $span;
+                var $dropdown, $span, $input;
                 if ($target.is('.city-picker-span')) {
                     $span = $target;
                 } else if ($target.is('.city-picker-span *')) {
                     $span = $target.parents('.city-picker-span');
+                }
+                if ($target.is('.city-picker-input')) {
+                    $input = $target;
                 }
                 if ($target.is('.city-picker-dropdown')) {
                     $dropdown = $target;
                 } else if ($target.is('.city-picker-dropdown *')) {
                     $dropdown = $target.parents('.city-picker-dropdown');
                 }
-                if ((!$span && !$dropdown) ||
+                if ((!$input && !$span && !$dropdown) ||
                     ($span && $span.get(0) !== $this.$textspan.get(0)) ||
+                    ($input && $input.get(0) !== $this.$element.get(0)) ||
                     ($dropdown && $dropdown.get(0) !== $this.$dropdown.get(0))) {
+                    console.log('close.......');
+                    console.log(e.target);
                     $this.close();
                 }
 
@@ -216,10 +222,20 @@
             this.$element.on('change', (this._changeElement = $.proxy(function () {
                 this.close();
                 this.refresh(true);
+            }, this))).on('focus', (this._focusElement = $.proxy(function (e) {
+                this.needBlur = true;
+                this.open();
+            }, this))).on('blur', (this._focusElement = $.proxy(function (e) {
+                if (this.needBlur) {
+                    console.log('blur....');
+                    this.needBlur = false;
+                    this.close();
+                }
             }, this)));
 
             this.$textspan.on('click', function (e) {
                 var $target = $(e.target), type;
+                $this.needBlur = false;
                 if ($target.is('.select-item')) {
                     type = $target.data('count');
                     $this.open(type);
@@ -230,6 +246,8 @@
                         $this.open();
                     }
                 }
+            }).on('mousedown', function () {
+                $this.needBlur = false;
             });
 
             this.$dropdown.on('click', '.city-select a', function () {
@@ -250,11 +268,12 @@
                     }
                 }
             }).on('click', '.city-select-tab a', function () {
-                if ($(this).hasClass('active')) {
-                    return false;
+                if (!$(this).hasClass('active')) {
+                    var type = $(this).data('count');
+                    $this.tab(type);
                 }
-                var type = $(this).data('count');
-                $this.tab(type);
+            }).on('mousedown', function () {
+                $this.needBlur = false;
             });
 
             if (this.$province) {

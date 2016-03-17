@@ -5,7 +5,7 @@
  * Copyright (c) 2015-2016 Tao Shi
  * Released under the MIT license
  *
- * Date: 2016-03-17T06:53:23.579Z
+ * Date: 2016-03-17T07:47:48.063Z
  */
 
 (function (factory) {
@@ -259,7 +259,7 @@
                     });
                     $(this).trigger(EVENT_CHANGE);
                     $this.feedText();
-                    $this.feedVal();
+                    $this.feedVal(true);
                     if (last) {
                         $this.close();
                     }
@@ -368,9 +368,11 @@
             return text;
         },
 
-        feedVal: function () {
+        feedVal: function (trigger) {
             this.$element.val(this.getVal());
-            this.$element.trigger('cp:updated');
+            if(trigger) {
+                this.$element.trigger('cp:updated');
+            }
         },
 
         output: function (type) {

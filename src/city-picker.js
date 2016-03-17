@@ -259,7 +259,7 @@
                     });
                     $(this).trigger(EVENT_CHANGE);
                     $this.feedText();
-                    $this.feedVal();
+                    $this.feedVal(true);
                     if (last) {
                         $this.close();
                     }
@@ -368,9 +368,11 @@
             return text;
         },
 
-        feedVal: function () {
+        feedVal: function (trigger) {
             this.$element.val(this.getVal());
-            this.$element.trigger('cp:updated');
+            if(trigger) {
+                this.$element.trigger('cp:updated');
+            }
         },
 
         output: function (type) {

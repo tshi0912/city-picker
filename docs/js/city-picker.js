@@ -5,7 +5,7 @@
  * Copyright (c) 2015-2016 Tao Shi
  * Released under the MIT license
  *
- * Date: 2016-02-29T12:11:36.477Z
+ * Date: 2016-03-17T06:53:23.579Z
  */
 
 (function (factory) {
@@ -370,6 +370,7 @@
 
         feedVal: function () {
             this.$element.val(this.getVal());
+            this.$element.trigger('cp:updated');
         },
 
         output: function (type) {

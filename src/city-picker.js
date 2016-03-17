@@ -370,6 +370,7 @@
 
         feedVal: function () {
             this.$element.val(this.getVal());
+            this.$element.trigger('cp:updated');
         },
 
         output: function (type) {

@@ -85,7 +85,8 @@
 
     <form class="form-inline">
         <div style="position: relative;">
-            <input class="form-control" readonly type="text" data-toggle="city-picker" data-level="city" placeholder="请选择省/市">
+            <input class="form-control" readonly type="text" data-toggle="city-picker" data-level="city"
+                   placeholder="请选择省/市">
         </div>
     </form>
 
@@ -127,7 +128,8 @@
 
     <form class="form-inline">
         <div style="position: relative;">
-            <input class="form-control" readonly type="text" data-responsive="true" data-toggle="city-picker" style="width:50%;">
+            <input class="form-control" readonly type="text" data-responsive="true" data-toggle="city-picker"
+                   style="width:50%;">
         </div>
     </form>
 
@@ -202,12 +204,29 @@
             <div id="distpicker">
                 <div class="form-group">
                     <div style="position: relative;">
-                        <input id="city-picker3" class="form-control" readonly type="text" value="江苏省/常州市/溧阳市" data-toggle="city-picker">
+                        <input id="city-picker3" class="form-control" readonly type="text" value="江苏省/常州市/溧阳市"
+                               data-toggle="city-picker">
                     </div>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-warning" id="reset" type="button">Reset</button>
-                    <button class="btn btn-danger" id="destroy" type="button">Destroy</button>
+                    <button class="btn btn-warning" id="reset" type="button">reset</button>
+                    <button class="btn btn-danger" id="destroy" type="button">destroy</button>
+
+                    <div class="dropup">
+                        <button id="code-count" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="text">Full Code</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:void(0);" data-count="">Full Code</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="javascript:void(0);" data-count="province">Province Code</a></li>
+                            <li><a href="javascript:void(0);" data-count="city">City Code</a></li>
+                            <li><a href="javascript:void(0);" data-count="district">District Code</a></li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-success" id="get-code" type="button">getCode<span class="code"></span>
+                    </button>
                 </div>
             </div>
         </form>

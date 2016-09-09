@@ -356,6 +356,18 @@
             }
         },
 
+        getCode: function (count) {
+            var obj = {}, arr = [];
+            this.$textspan.find('.select-item')
+                .each(function () {
+                    var code = $(this).data('code');
+                    var count = $(this).data('count');
+                    obj[count] = code;
+                    arr.push(code);
+                });
+            return count ? obj[count] : arr.join('/');
+        },
+
         getVal: function () {
             var text = '';
             this.$dropdown.find('.city-select')

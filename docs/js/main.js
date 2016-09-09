@@ -24,27 +24,19 @@ $(function () {
     $('#destroy').click(function () {
         $citypicker3.citypicker('destroy');
     });
-    //
-    //$('#distpicker1').distpicker();
-    //
-    //$('#distpicker2').distpicker({
-    //  province: '---- 所在省 ----',
-    //  city: '---- 所在市 ----',
-    //  district: '---- 所在区 ----'
-    //});
-    //
-    //$('#distpicker3').distpicker({
-    //  province: '浙江省',
-    //  city: '杭州市',
-    //  district: '西湖区'
-    //});
-    //
-    //$('#distpicker4').distpicker({
-    //  placeholder: false
-    //});
-    //
-    //$('#distpicker5').distpicker({
-    //  autoSelect: false
-    //});
+
+    $('#get-code').click(function () {
+        var count = $('#code-count').data('count');
+        var code = $citypicker3.data('citypicker').getCode(count);
+        $(this).find('.code').text(': ' + code);
+    });
+
+    $('.dropup .dropdown-menu a').click(function () {
+        var $btn = $('#code-count');
+        $btn.data('count', $(this).data('count')).find('.text').text($(this).text());
+        if ($('#get-code .code').text()) {
+            $('#get-code').trigger('click');
+        }
+    });
 
 });

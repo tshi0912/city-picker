@@ -367,7 +367,21 @@
                 });
             return count ? obj[count] : arr.join('/');
         },
+        setValue:function(val){
+          //console.log('setValue',val);
+          var $select = this.$dropdown.find('.city-select');
+          $select.data('item', null);
+          // parse value from value of the target $element
+          //console.log(this.dems)
+          $.each(this.dems, $.proxy(function (i, type) {
+               this.options[type] = val[type];
 
+              this.output(type);
+          }, this));
+          this.tab(PROVINCE);
+          this.feedText();
+          this.feedVal();
+        },
         getVal: function () {
             var text = '';
             this.$dropdown.find('.city-select')

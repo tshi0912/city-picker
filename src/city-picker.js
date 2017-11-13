@@ -77,7 +77,7 @@
                     '<div class="city-select province" data-count="province"></div>' +
                     (this.includeDem('city') ? '<div class="city-select city" data-count="city"></div>' : '') +
                     (this.includeDem('district') ? '<div class="city-select district" data-count="district"></div>' : '') +
-                    '</div></div>';
+                    '</div><a id="confirm-cpicker-a" style="position: absolute; top: 8px; right: 8px; cursor: pointer;">确定</a></div>';
 
             this.$element.addClass('city-picker-input');
             this.$textspan = $(textspan).insertAfter(this.$element);
@@ -271,6 +271,8 @@
                 }
             }).on('mousedown', function () {
                 $this.needBlur = false;
+            }).on('click', 'a#confirm-cpicker-a', function () {
+                $this.close();
             });
 
             if (this.$province) {

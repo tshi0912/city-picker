@@ -1,7 +1,7 @@
 {
   "name": "city-picker",
   "description": "A simple jQuery plugin for picking provinces, cities and districts of China.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "main": "dist/city-picker.js",
   "license": "MIT",
   "repository": "tshi0912/city-picker",

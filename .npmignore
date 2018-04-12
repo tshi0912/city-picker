@@ -4,3 +4,4 @@ docs
 /.*
 bower.json
 gulpfile.js
+package-lock.json

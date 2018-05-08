@@ -1,11 +1,11 @@
-/*!
- * CityPicker v@VERSION
+﻿/*!
+ * CityPicker v1.2.0
  * https://github.com/tshi0912/citypicker
  *
- * Copyright (c) 2015-@YEAR Tao Shi
+ * Copyright (c) 2015-2018 Tao Shi
  * Released under the MIT license
  *
- * Date: @DATE
+ * Date: 2018-01-06T04:53:05.451Z
  */
 
 (function (factory) {
@@ -60,9 +60,12 @@
         render: function () {
             var p = this.getPosition(),
                 placeholder = this.$element.attr('placeholder') || this.options.placeholder,
-                textspan = '<span class="city-picker-span" style="' +
-                    this.getWidthStyle(p.width) + 'height:' +
-                    p.height + 'px;line-height:' + (p.height - 1) + 'px;">' +
+                //textspan = '<span class="city-picker-span" style="' +
+                //    this.getWidthStyle(p.width) + 'height:' +
+                //    p.height + 'px;line-height:' + (p.height - 1) + 'px;">' +
+                //    (placeholder ? '<span class="placeholder">' + placeholder + '</span>' : '') +
+                //    '<span class="title"></span><div class="arrow"></div>' + '</span>',
+                textspan = '<span class="city-picker-span" >' +
                     (placeholder ? '<span class="placeholder">' + placeholder + '</span>' : '') +
                     '<span class="title"></span><div class="arrow"></div>' + '</span>',
 
@@ -72,7 +75,7 @@
                     '<div class="city-select-tab">' +
                     '<a class="active" data-count="province">省份</a>' +
                     (this.includeDem('city') ? '<a data-count="city">城市</a>' : '') +
-                    (this.includeDem('district') ? '<a data-count="district">区县</a>' : '') + '</div>' +
+                    (this.includeDem('district') ? '<a data-count="district">区县</a>' : '') + ' <a id="clean-input-picker" class="pull-right" > 清空 </a></div>' +
                     '<div class="city-select-content">' +
                     '<div class="city-select province" data-count="province"></div>' +
                     (this.includeDem('city') ? '<div class="city-select city" data-count="city"></div>' : '') +
@@ -107,6 +110,7 @@
                 }
                 this.output(type);
             }, this));
+         
             this.tab(PROVINCE);
             this.feedText();
             this.feedVal();
@@ -164,14 +168,15 @@
                 });
 
                 $clone = $dom.clone().appendTo($wrap);
-
+                
                 sizes = {
-                    width: $clone.outerWidth(),
+                    width: $clone.outerWidth() > 1000 ? $clone.outerWidth() / 4 : $clone.outerWidth() ,
                     height: $clone.outerHeight()
                 };
 
                 $wrap.remove();
             } else {
+               
                 sizes = {
                     width: $dom.outerWidth(),
                     height: $dom.outerHeight()
@@ -216,13 +221,14 @@
                 }
 
             }));
-
+       
             this.$element.on('change', (this._changeElement = $.proxy(function () {
                 this.close(true);
                 this.refresh(true);
             }, this))).on('focus', (this._focusElement = $.proxy(function () {
                 this.needBlur = true;
-                this.open();
+                //console.log('focus',this);
+                //this.open();
             }, this))).on('blur', (this._blurElement = $.proxy(function () {
                 if (this.needBlur) {
                     this.needBlur = false;
@@ -231,6 +237,7 @@
             }, this)));
 
             this.$textspan.on('click', function (e) {
+              
                 var $target = $(e.target), type;
                 $this.needBlur = false;
                 if ($target.is('.select-item')) {
@@ -271,7 +278,10 @@
                 }
             }).on('mousedown', function () {
                 $this.needBlur = false;
-            });
+                }).on('click', 'a#clean-input-picker', function () {
+                    $this.clean();
+                    
+                });
 
             if (this.$province) {
                 this.$province.on(EVENT_CHANGE, (this._changeProvince = $.proxy(function () {
@@ -288,8 +298,15 @@
                 }, this)));
             }
         },
-
+        clean: function () {
+        
+            var $select = this.$dropdown.find('.city-select');
+            $select.data('item', null);
+            this.$element.val(null).trigger('change');
+            this.$element.trigger('cp:updated');
+        },
         open: function (type) {
+           
             type = type || PROVINCE;
             this.$dropdown.show();
             this.$textspan.addClass('open').addClass('focus');
@@ -367,20 +384,37 @@
                 });
             return count ? obj[count] : arr.join('/');
         },
-        setValue:function(val){
-          //console.log('setValue',val);
-          var $select = this.$dropdown.find('.city-select');
-          $select.data('item', null);
-          // parse value from value of the target $element
-          //console.log(this.dems)
-          $.each(this.dems, $.proxy(function (i, type) {
-               this.options[type] = val[type];
+        setText: function (val) {
+            var $select = this.$dropdown.find('.city-select');
+            $select.data('item', null);
+            this.$element.val(val);
+            var text = val.split('/');
+            $.each(this.dems, $.proxy(function (i, type) {
+                if (text[i] && i < text.length) {
+                    this.options[type] = text[i];
+                } else if (true) {
+                    this.options[type] = '';
+                }
+                this.output(type);
+               
+            }, this));
 
-              this.output(type);
-          }, this));
-          this.tab(PROVINCE);
-          this.feedText();
-          this.feedVal();
+            this.tab(PROVINCE);
+            this.feedText();
+            this.feedVal();
+        },
+
+        setValue: function (val) {
+            var $select = this.$dropdown.find('.city-select');
+            $select.data('item', null);
+            $.each(this.dems, $.proxy(function (i, type) {
+                this.options[type] = val[type];
+
+                this.output(type);
+            }, this));
+            this.tab(PROVINCE);
+            this.feedText();
+            this.feedVal();
         },
         getVal: function () {
             var text = '';
@@ -391,6 +425,7 @@
                         text += ($(this).hasClass('province') ? '' : '/') + item.address;
                     }
                 });
+          
             return text;
         },
 
@@ -399,6 +434,7 @@
             if(trigger) {
                 this.$element.trigger('cp:updated');
             }
+           
         },
 
         output: function (type) {
@@ -528,6 +564,7 @@
         },
 
         tab: function (type) {
+           
             var $selects = this.$dropdown.find('.city-select');
             var $tabs = this.$dropdown.find('.city-select-tab > a');
             var $select = this['$' + type];

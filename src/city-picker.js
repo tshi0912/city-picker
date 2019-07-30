@@ -48,6 +48,8 @@
 
         init: function () {
 
+            this.codeRender();
+
             this.defineDems();
 
             this.render();
@@ -55,6 +57,11 @@
             this.bind();
 
             this.active = true;
+        },
+
+        codeRender: function(){
+            var code = this.$element.attr('code');
+            if(code!==undefined && code !== '' && !isNaN(Number(code))) this.$element.val($.fn.citypicker.getAddressbyCodeId(code));
         },
 
         render: function () {
@@ -588,6 +595,51 @@
         $.fn.citypicker = CityPicker.other;
         return this;
     };
+
+    // 根据code查询地址
+    $.fn.citypicker.getAddressbyCodeId = function(code_id){
+    	var city = ChineseDistricts;
+    	var code = city[''+code_id];
+    	var addr = '';
+    	var province = '';
+    	var province_code = '';
+    	var city_str = '';
+    	var county = '';
+    	if(code_id.substring(0,2)==='44'){
+    		province = '广东省';
+    		province_code = '440000';
+    	}else{
+    		$.each(city['86'], function(i,item) {
+    				$.each(item, function(j,index) {
+    					if(index['code']===code_id.substring(0,2)+'0000'){
+    						province = index['address'];
+    						province_code = index['code'];
+    						return false;
+    					}
+    				});
+    		});
+    	}
+    	if(code_id.substring(2,4).indexOf('00')==-1){
+    		var city_code = code_id.substring(0,4)+'00';
+    		 city_str = city[province_code][city_code];
+    	}
+    	if(code===undefined){
+    		//440103
+    		code = code_id.substring(0,4)+"00";
+    		if(city[code] == null) return;
+    		addr = city[code][code_id];
+    		return addr = province+'/'+city_str+'/'+addr;
+    	}else{
+    		if(code_id.substring(2,4).indexOf('00')!=-1){
+    			//440000
+    			return addr = province;
+    		}else{
+    			//440100
+    			var city_city = city[code_id.substring(0,2)+'0000'];
+    			return addr = province +'/'+city_city[code_id];
+    		}
+        }
+    }
 
     $(function () {
         $('[data-toggle="city-picker"]').citypicker();

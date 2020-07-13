@@ -382,7 +382,7 @@
 
         feedVal: function (trigger) {
             this.$element.val(this.getVal());
-            if(trigger) {
+            if (trigger) {
                 this.$element.trigger('cp:updated');
             }
         },
@@ -470,7 +470,7 @@
                         ' class="' +
                         (m.selected ? ' active' : '') +
                         '">' +
-                        ( simple ? $this.simplize(m.address, PROVINCE) : m.address) +
+                        (simple ? $this.simplize(m.address, PROVINCE) : m.address) +
                         '</a>');
                 });
                 list.push('</dd></dl>');
@@ -493,7 +493,7 @@
                     ' class="' +
                     (n.selected ? ' active' : '') +
                     '">' +
-                    ( simple ? $this.simplize(n.address, type) : n.address) +
+                    (simple ? $this.simplize(n.address, type) : n.address) +
                     '</a>');
             });
             list.push('</dd></dl>');

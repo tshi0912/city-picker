@@ -229,4 +229,5 @@ As a jQuery plugin, you also need to see the [jQuery Browser Support](http://jqu
 
 ## License
 
+[MIT](http://opensource.org/licenses/MIT) © [ettingshausen](https://ettingshausen.github.io)
 [MIT](http://opensource.org/licenses/MIT) © [Tao Shi](http://shitao.me)

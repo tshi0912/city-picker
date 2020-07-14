@@ -5,7 +5,7 @@
         factory();
     }
 })(function () {
-    var ChineseDistricts = {
+    const ChineseDistricts = {
         1401: {
             140102: "南城区",
             140103: "北城区",

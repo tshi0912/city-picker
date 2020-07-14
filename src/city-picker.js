@@ -500,7 +500,7 @@
     CityPicker.other = $.fn.citypicker;
     $.fn.citypicker = function (option) {
         let args = [].slice.call(arguments, 1);
-        let value = undefined;
+        let value;
         this.each(function () {
             let $this = $(this);
             let data = $this.data(NAMESPACE);

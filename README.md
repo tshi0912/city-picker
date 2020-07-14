@@ -4,9 +4,9 @@
 
 - [Demo](http://tshi0912.github.io/city-picker)
 
-##Release History
+## Release History
 
-###v1.1.0
+### v1.1.0
 Add function to get the code：
 
 ```javascript

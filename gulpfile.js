@@ -50,7 +50,9 @@ export const copyImages = () => gulp.src(paths.images.src)
 
 export function scripts() {
     return gulp.src(paths.scripts.src, {sourcemaps: true})
-        .pipe(babel())
+        .pipe(babel({
+            presets: ['@babel/preset-env']
+        }))
         .pipe(uglify())
         .pipe(rename({
             suffix: '.min'

@@ -27,14 +27,14 @@
     if (typeof ChineseDistricts === "undefined") {
         throw new Error('The file "city-picker.data.js" must be included first!');
     }
-    var NAMESPACE = "citypicker";
-    var EVENT_CHANGE = "change." + NAMESPACE;
-    var PROVINCE = "province";
-    var CITY = "city";
-    var DISTRICT = "district";
-    var TOWN = "town";
-    var VILLAGE = "village";
-    var COMMITTEE = "committee";
+    const NAMESPACE = "citypicker";
+    const EVENT_CHANGE = "change." + NAMESPACE;
+    const PROVINCE = "province";
+    const CITY = "city";
+    const DISTRICT = "district";
+    const TOWN = "town";
+    const VILLAGE = "village";
+    const COMMITTEE = "committee";
 
     function CityPicker(element, options) {
         this.$element = $(element);
@@ -47,28 +47,50 @@
     }
 
     CityPicker.prototype = {
-        constructor: CityPicker, init: function () {
+        constructor: CityPicker,
+        init: function () {
             this.defineDems();
             this.render();
             this.bind();
             this.active = true;
             this.close(true);
-        }, render: function () {
-            var p = this.getPosition(), placeholder = this.$element.attr("placeholder") || this.options.placeholder,
-                textspan = '<span class="city-picker-span" style="' + this.getWidthStyle(p.width) + "height:" + (p.height + 6) + "px;line-height:" + (p.height + 5) + 'px;">' + (placeholder ? '<span class="placeholder">' + placeholder + "</span>" : "") + '<span class="title"></span><div class="arrow"></div></span>',
-                dropdown = '<div class="city-picker-dropdown" style="left:0px;top:100%;' + this.getWidthStyle(p.width, true) + '"><div class="city-select-wrap"><div class="city-select-tab"><a class="active" data-count="province">省份</a>' + (this.includeDem("city") ? '<a data-count="city">城市</a>' : "") + (this.includeDem("district") ? '<a data-count="district">区县</a>' : "") + (this.includeDem("town") ? '<a data-count="town">街道</a>' : "") + (this.includeDem("village") ? '<a data-count="village">居委</a>' : "") + (this.includeDem("committee") ? '<a data-count="committee">路</a>' : "") + '</div><div class="city-select-content"><div class="city-select province" data-count="province"></div>' + (this.includeDem("city") ? '<div class="city-select city" data-count="city"></div>' : "") + (this.includeDem("district") ? '<div class="city-select district" data-count="district"></div>' : "") + (this.includeDem("town") ? '<div class="city-select town" data-count="town"></div>' : "") + (this.includeDem("village") ? '<div class="city-select village" data-count="village"></div>' : "") + (this.includeDem("committee") ? '<div class="city-select committee" data-count="committee"></div>' : "") + "</div></div>";
+        },
+        render: function () {
+            let p = this.getPosition(),
+            placeholder = this.$element.attr("placeholder") || this.options.placeholder,
+            textspan = `<span class="city-picker-span" style=" ${this.getWidthStyle(p.width)} height:${(p.height + 6)}px;line-height:${(p.height + 5)}px;"> ${placeholder ? '<span class="placeholder"> ${placeholder} </span>' : ""}  <span class="title"></span><div class="arrow"></div></span>`,
+            dropdown = `<div class="city-picker-dropdown" style="left:0;top:100%; ${this.getWidthStyle(p.width, true)}">
+                                <div class="city-select-wrap">
+                                    <div class="city-select-tab">
+                                        <a class="active" data-count="province">省份</a> 
+                                        ${this.includeDem("city") ? '<a data-count="city">城市</a>' : ''}  
+                                        ${this.includeDem("district") ? '<a data-count="district">区县</a>' : ''} 
+                                        ${this.includeDem("town") ? '<a data-count="town">街道</a>' : '' } 
+                                        ${this.includeDem("village") ? '<a data-count="village">居委</a>' : ''} 
+                                        ${this.includeDem("committee") ? '<a data-count="committee">路</a>' : ''} 
+                                    </div>
+                                <div class="city-select-content">
+                                    <div class="city-select province" data-count="province"></div>
+                                    ${this.includeDem("city") ? '<div class="city-select city" data-count="city"></div>' : ''} 
+                                    ${this.includeDem("district") ? '<div class="city-select district" data-count="district"></div>' : ''} 
+                                    ${this.includeDem("town") ? '<div class="city-select town" data-count="town"></div>' : ''} 
+                                    ${this.includeDem("village") ? '<div class="city-select village" data-count="village"></div>' : ''} 
+                                    ${this.includeDem("committee") ? '<div class="city-select committee" data-count="committee"></div>' : ''} 
+                                </div>
+                             </div>`;
             this.$element.addClass("city-picker-input");
             this.$textspan = $(textspan).insertAfter(this.$element);
             this.$dropdown = $(dropdown).insertAfter(this.$textspan);
-            var $select = this.$dropdown.find(".city-select");
+            const $select = this.$dropdown.find(".city-select");
             $.each(this.dems, $.proxy(function (i, type) {
                 this["$" + type] = $select.filter("." + type + "");
             }, this));
             this.refresh();
-        }, refresh: function (force) {
-            var $select = this.$dropdown.find(".city-select");
+        },
+        refresh: function (force) {
+            let $select = this.$dropdown.find(".city-select");
             $select.data("item", null);
-            var val = this.$element.val() || "";
+            let val = this.$element.val() || "";
             val = val.split("/");
             $.each(this.dems, $.proxy(function (i, type) {
                 if (val[i] && i < val.length) {
@@ -83,8 +105,9 @@
             this.tab(PROVINCE);
             this.feedText();
             this.feedVal();
-        }, defineDems: function () {
-            var stop = false;
+        },
+        defineDems: function () {
+            let stop = false;
             $.each([PROVINCE, CITY, DISTRICT, TOWN, VILLAGE, COMMITTEE], $.proxy(function (i, type) {
                 if (!stop) {
                     this.dems.push(type);
@@ -93,10 +116,12 @@
                     stop = true;
                 }
             }, this));
-        }, includeDem: function (type) {
+        },
+        includeDem: function (type) {
             return $.inArray(type, this.dems) !== -1;
-        }, getPosition: function () {
-            var p, h, w, s, pw;
+        },
+        getPosition: function () {
+            let p, h, w, s, pw;
             p = this.$element.position();
             s = this.getSize(this.$element);
             h = s.height;
@@ -112,8 +137,9 @@
                 }
             }
             return {top: p.top || 0, left: p.left || 0, height: h, width: w};
-        }, getSize: function ($dom) {
-            var $wrap, $clone, sizes;
+        },
+        getSize: function ($dom) {
+            let $wrap, $clone, sizes;
             if (!$dom.is(":visible")) {
                 $wrap = $("<div />").appendTo($("body"));
                 $wrap.css({
@@ -128,17 +154,19 @@
                 sizes = {width: $dom.outerWidth(), height: $dom.outerHeight()};
             }
             return sizes;
-        }, getWidthStyle: function (w, dropdown) {
+        },
+        getWidthStyle: function (w, dropdown) {
             if (this.options.responsive && !$.isNumeric(w)) {
                 return "width:" + w + ";";
             } else {
                 return "width:" + (dropdown ? Math.max(320, w) : w) + "px;";
             }
-        }, bind: function () {
-            var $this = this;
+        },
+        bind: function () {
+            let $this = this;
             $(document).on("click", (this._mouteclick = function (e) {
-                var $target = $(e.target);
-                var $dropdown, $span, $input;
+                let $target = $(e.target);
+                let $dropdown, $span, $input;
                 if ($target.is(".city-picker-span")) {
                     $span = $target;
                 } else {
@@ -173,7 +201,7 @@
                 }
             }, this)));
             this.$textspan.on("click", function (e) {
-                var $target = $(e.target), type;
+                let $target = $(e.target), type;
                 $this.needBlur = false;
                 if ($target.is(".select-item")) {
                     type = $target.data("count");
@@ -189,9 +217,9 @@
                 $this.needBlur = false;
             });
             this.$dropdown.on("click", ".city-select a", function () {
-                var $select = $(this).parents(".city-select");
-                var $active = $select.find("a.active");
-                var last = $select.next().length === 0;
+                let $select = $(this).parents(".city-select");
+                let $active = $select.find("a.active");
+                let last = $select.next().length === 0;
                 $active.removeClass("active");
                 $(this).addClass("active");
                 if ($active.data("code") !== $(this).data("code")) {
@@ -205,7 +233,7 @@
                 }
             }).on("click", ".city-select-tab a", function () {
                 if (!$(this).hasClass("active")) {
-                    var type = $(this).data("count");
+                    let type = $(this).data("count");
                     $this.tab(type);
                 }
             }).on("mousedown", function () {
@@ -255,18 +283,21 @@
                 this.$committee.on(EVENT_CHANGE, (this._changeCommittee = $.proxy(function () {
                 }, this)));
             }
-        }, open: function (type) {
+        },
+        open: function (type) {
             type = type || PROVINCE;
             this.$dropdown.show();
             this.$textspan.addClass("open").addClass("focus");
             this.tab(type);
-        }, close: function (blur) {
+        },
+        close: function (blur) {
             this.$dropdown.hide();
             this.$textspan.removeClass("open");
             if (blur) {
                 this.$textspan.removeClass("focus");
             }
-        }, unbind: function () {
+        },
+        unbind: function () {
             $(document).off("click", this._mouteclick);
             this.$element.off("change", this._changeElement);
             this.$element.off("focus", this._focusElement);
@@ -293,19 +324,22 @@
             if (this.$committee) {
                 this.$committee.off(EVENT_CHANGE, this._changeCommittee);
             }
-        }, getText: function () {
-            var text = "";
+        },
+        getText: function () {
+            let text = "";
             this.$dropdown.find(".city-select").each(function () {
-                var item = $(this).data("item"), type = $(this).data("count");
+                let item = $(this).data("item"), type = $(this).data("count");
                 if (item) {
                     text += ($(this).hasClass("province") ? "" : "/") + '<span class="select-item" data-count="' + type + '" data-code="' + item.code + '">' + item.address + "</span>";
                 }
             });
             return text;
-        }, getPlaceHolder: function () {
+        },
+        getPlaceHolder: function () {
             return this.$element.attr("placeholder") || this.options.placeholder;
-        }, feedText: function () {
-            var text = this.getText();
+        },
+        feedText: function () {
+            let text = this.getText();
             if (text) {
                 this.$textspan.find(">.placeholder").hide();
                 this.$textspan.find(">.title").html(this.getText()).show();
@@ -313,29 +347,32 @@
                 this.$textspan.find(">.placeholder").text(this.getPlaceHolder()).show();
                 this.$textspan.find(">.title").html("").hide();
             }
-        }, getVal: function () {
-            var text = "";
+        },
+        getVal: function () {
+            let text = "";
             this.$dropdown.find(".city-select").each(function () {
-                var item = $(this).data("item");
+                let item = $(this).data("item");
                 if (item) {
                     text += ($(this).hasClass("province") ? "" : "/") + item.address;
                 }
             });
             return text;
-        }, feedVal: function (trigger) {
+        },
+        feedVal: function (trigger) {
             this.$element.val(this.getVal());
             if (trigger) {
                 this.$element.trigger("cp:updated");
             }
-        }, output: function (type) {
-            var options = this.options;
-            var $select = this["$" + type];
-            var data = type === PROVINCE ? {} : [];
-            var item;
-            var districts;
-            var code;
-            var matched = null;
-            var value;
+        },
+        output: function (type) {
+            let options = this.options;
+            let $select = this["$" + type];
+            let data = type === PROVINCE ? {} : [];
+            let item;
+            let districts;
+            let code;
+            let matched = null;
+            let value;
             if (!$select || !$select.length) {
                 return;
             }
@@ -345,10 +382,10 @@
             districts = $.isNumeric(code) ? ChineseDistricts[code] : null;
             if ($.isPlainObject(districts)) {
                 $.each(districts, function (code, address) {
-                    var provs;
+                    let provs;
                     if (type === PROVINCE) {
                         provs = [];
-                        for (var i = 0; i < address.length; i++) {
+                        for (let i = 0; i < address.length; i++) {
                             if (address[i].address === value) {
                                 matched = {code: address[i].code, address: address[i].address};
                             }
@@ -369,8 +406,9 @@
             }
             $select.html(type === PROVINCE ? this.getProvinceList(data) : this.getList(data, type));
             $select.data("item", matched);
-        }, getProvinceList: function (data) {
-            var list = [], $this = this, simple = this.options.simple;
+        },
+        getProvinceList: function (data) {
+            let list = [], $this = this, simple = this.options.simple;
             $.each(data, function (i, n) {
                 list.push('<dl class="clearfix">');
                 list.push("<dt>" + i + "</dt><dd>");
@@ -380,15 +418,17 @@
                 list.push("</dd></dl>");
             });
             return list.join("");
-        }, getList: function (data, type) {
-            var list = [], $this = this, simple = this.options.simple;
+        },
+        getList: function (data, type) {
+            let list = [], $this = this, simple = this.options.simple;
             list.push('<dl class="clearfix"><dd>');
             $.each(data, function (i, n) {
                 list.push('<a title="' + (n.address || "") + '" data-code="' + (n.code || "") + '" class="' + (n.selected ? " active" : "") + '">' + (simple ? $this.simplize(n.address, type) : n.address) + "</a>");
             });
             list.push("</dd></dl>");
             return list.join("");
-        }, simplize: function (address, type) {
+        },
+        simplize: function (address, type) {
             address = address || "";
             if (type === PROVINCE) {
                 return address.replace(/[省,市,自治区,壮族,回族,维吾尔]/g, "");
@@ -401,31 +441,35 @@
                     }
                 }
             }
-        }, tab: function (type) {
-            var $selects = this.$dropdown.find(".city-select");
-            var $tabs = this.$dropdown.find(".city-select-tab > a");
-            var $select = this["$" + type];
-            var $tab = this.$dropdown.find('.city-select-tab > a[data-count="' + type + '"]');
+        },
+        tab: function (type) {
+            let $selects = this.$dropdown.find(".city-select");
+            let $tabs = this.$dropdown.find(".city-select-tab > a");
+            let $select = this["$" + type];
+            let $tab = this.$dropdown.find('.city-select-tab > a[data-count="' + type + '"]');
             if ($select) {
                 $selects.hide();
                 $select.show();
                 $tabs.removeClass("active");
                 $tab.addClass("active");
             }
-        }, reset: function () {
+        },
+        reset: function () {
             this.$element.val(null).trigger("change");
-        }, destroy: function () {
+        },
+        destroy: function () {
             this.unbind();
             this.$element.removeData(NAMESPACE).removeClass("city-picker-input");
             this.$textspan.remove();
             this.$dropdown.remove();
-        }, getAllVal: function () {
-            var getCode = function (title, obj) {
-                var mCode = obj.$element.next().find("span[data-count=" + title + "]").attr("data-code");
+        },
+        getAllVal: function () {
+            const getCode = function (title, obj) {
+                let mCode = obj.$element.next().find("span[data-count=" + title + "]").attr("data-code");
                 return mCode === undefined ? "" : mCode;
             };
-            var getText = function (title, obj) {
-                var name = obj.$element.next().find("span[data-count=" + title + "]").html();
+            const getText = function (title, obj) {
+                let name = obj.$element.next().find("span[data-count=" + title + "]").html();
                 return name === undefined ? "" : name;
             };
             return {
@@ -455,13 +499,13 @@
     };
     CityPicker.other = $.fn.citypicker;
     $.fn.citypicker = function (option) {
-        var args = [].slice.call(arguments, 1);
-        var value = undefined;
+        let args = [].slice.call(arguments, 1);
+        let value = undefined;
         this.each(function () {
-            var $this = $(this);
-            var data = $this.data(NAMESPACE);
-            var options;
-            var fn;
+            let $this = $(this);
+            let data = $this.data(NAMESPACE);
+            let options;
+            let fn;
             if (!data) {
                 if (/destroy/.test(option)) {
                     return;

@@ -1900,7 +1900,6 @@
     }
     if (typeof window !== "undefined") {
         $.extend(true, window.ChineseDistricts, ChineseDistricts);
-        console.log('address',window.ChineseDistricts[140106001])
     }
     return ChineseDistricts;
 })

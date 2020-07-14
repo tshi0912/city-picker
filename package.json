@@ -2,8 +2,12 @@
   "name": "city-picker",
   "description": "A simple jQuery plugin for picking provinces, cities and districts of China.",
   "version": "1.1.0",
-  "main": "dist/city-picker.js",
+  "main": "dist/city-picker.min.js",
+  "type": "module",
   "license": "MIT",
+  "scripts": {
+    "build": "gulp"
+  },
   "repository": "tshi0912/city-picker",
   "homepage": "http://tshi0912.github.io/city-picker",
   "author": {
@@ -41,11 +45,16 @@
     "jquery": ">= 1.9.1"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
+    "@babel/core": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-cssmin": "^0.2.0",
     "gulp-jscs": "^3.0.2",
     "gulp-jshint": "^1.12.0",
     "gulp-load-plugins": "^1.1.0",
-    "gulp-rename": "^1.2.2",
+    "gulp-rename": "^2.0.0",
     "gulp-replace": "^0.5.4",
     "gulp-uglify": "^1.5.1"
   }

@@ -56,6 +56,6 @@
     "gulp-load-plugins": "^2.0.3",
     "gulp-rename": "^2.0.0",
     "gulp-replace": "^1.0.0",
-    "gulp-uglify": "^1.5.1"
+    "gulp-uglify": "^3.0.2"
   }
 }

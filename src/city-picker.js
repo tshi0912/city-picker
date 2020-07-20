@@ -57,15 +57,15 @@
         },
         render: function () {
             let p = this.getPosition(),
-            placeholder = this.$element.attr("placeholder") || this.options.placeholder,
-            textspan = `<span class="city-picker-span" style=" ${this.getWidthStyle(p.width)} height:${(p.height + 6)}px;line-height:${(p.height + 5)}px;"> ${placeholder ? '<span class="placeholder"> ${placeholder} </span>' : ""}  <span class="title"></span><div class="arrow"></div></span>`,
-            dropdown = `<div class="city-picker-dropdown" style="left:0;top:100%; ${this.getWidthStyle(p.width, true)}">
+                placeholder = this.$element.attr("placeholder") || this.options.placeholder,
+                textspan = `<span class="city-picker-span" style=" ${this.getWidthStyle(p.width)} height:${(p.height + 6)}px;line-height:${(p.height + 5)}px;"> ${placeholder ? '<span class="placeholder"> ${placeholder} </span>' : ""}  <span class="title"></span><div class="arrow"></div></span>`,
+                dropdown = `<div class="city-picker-dropdown" style="left:0;top:100%; ${this.getWidthStyle(p.width, true)}">
                                 <div class="city-select-wrap">
                                     <div class="city-select-tab">
                                         <a class="active" data-count="province">省份</a> 
                                         ${this.includeDem("city") ? '<a data-count="city">城市</a>' : ''}  
                                         ${this.includeDem("district") ? '<a data-count="district">区县</a>' : ''} 
-                                        ${this.includeDem("town") ? '<a data-count="town">街道</a>' : '' } 
+                                        ${this.includeDem("town") ? '<a data-count="town">街道</a>' : ''} 
                                         ${this.includeDem("village") ? '<a data-count="village">居委</a>' : ''} 
                                         ${this.includeDem("committee") ? '<a data-count="committee">路</a>' : ''} 
                                     </div>
@@ -357,6 +357,17 @@
                 }
             });
             return text;
+        },
+        getCode: function (count) {
+            let obj = {}, arr = [];
+            this.$textspan.find('.select-item')
+                .each(function () {
+                    let code = $(this).data('code');
+                    let index = $(this).data('count');
+                    obj[index] = code;
+                    arr.push(code);
+                });
+            return count ? obj[count] : arr.join('/');
         },
         feedVal: function (trigger) {
             this.$element.val(this.getVal());

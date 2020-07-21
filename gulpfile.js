@@ -3,8 +3,11 @@ import babel from 'gulp-babel';
 import uglify from 'gulp-uglify';
 import cssmin from 'gulp-cssmin';
 import rename from 'gulp-rename';
+import replace from 'gulp-replace';
+import edit from 'gulp-json-editor';
 import del from 'del';
 
+console.log(process);
 const paths = {
     docs: {
         images: 'docs/images',
@@ -61,8 +64,38 @@ export function scripts() {
         .pipe(gulp.dest(paths.docs.js));
 }
 
+export function copySource() {
 
-const build = gulp.series(clean, gulp.parallel(scripts, styles, copyImages));
+    let version;
+
+    gulp.src('./package.json')
+        .pipe(edit(function (json) {
+            version = json.version;
+        }));
+
+    return gulp.src(paths.scripts.src)
+        .pipe(replace(/@\w+/g, function (placeHolder) {
+            switch (placeHolder) {
+                case '@VERSION':
+                    placeHolder = version;
+                    break;
+
+                case '@YEAR':
+                    placeHolder = (new Date()).getFullYear();
+                    break;
+
+                case '@DATE':
+                    placeHolder = (new Date()).toISOString();
+                    break;
+            }
+            return placeHolder;
+        }))
+        .pipe(gulp.dest(paths.scripts.dest))
+        .pipe(gulp.dest(paths.docs.js));
+}
+
+
+const build = gulp.series(clean, gulp.parallel(scripts, styles, copyImages, copySource));
 /*
  * Export a default task
  */

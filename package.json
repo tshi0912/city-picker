@@ -42,7 +42,7 @@
     "development"
   ],
   "dependencies": {
-    "jquery": ">= 1.9.1"
+    "jquery": ">= 3.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",

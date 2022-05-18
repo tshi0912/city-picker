@@ -54,7 +54,7 @@
     "gulp-babel": "^8.0.0",
     "gulp-cssmin": "^0.2.0",
     "gulp-eslint": "^6.0.0",
-    "gulp-json-editor": "^2.5.4",
+    "gulp-json-editor": "^2.5.6",
     "gulp-rename": "^2.0.0",
     "gulp-replace": "^1.0.0",
     "gulp-uglify": "^3.0.2"

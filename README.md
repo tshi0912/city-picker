@@ -1,12 +1,14 @@
 # City Picker
 
-> A simple jQuery plugin for picking provinces, cities and districts of China.
+> A simple jQuery plugin for picking provinces, cities and districts of China.  
+
+![CI](https://github.com/ettingshausen/city-picker/workflows/CI/badge.svg)
 
 - [Demo](http://tshi0912.github.io/city-picker)
 
-##Release History
+## Release History
 
-###v1.1.0
+### v1.1.0
 Add function to get the code：
 
 ```javascript
@@ -229,4 +231,5 @@ As a jQuery plugin, you also need to see the [jQuery Browser Support](http://jqu
 
 ## License
 
+[MIT](http://opensource.org/licenses/MIT) © [ettingshausen](https://ettingshausen.github.io)  
 [MIT](http://opensource.org/licenses/MIT) © [Tao Shi](http://shitao.me)

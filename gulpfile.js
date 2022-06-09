@@ -1,102 +1,102 @@
-'use strict';
+import gulp from 'gulp';
+import babel from 'gulp-babel';
+import uglify from 'gulp-uglify';
+import cssmin from 'gulp-cssmin';
+import rename from 'gulp-rename';
+import replace from 'gulp-replace';
+import edit from 'gulp-json-editor';
+import del from 'del';
 
-var gulp = require('gulp'),
-    plugins = require('gulp-load-plugins')(),
-    pkg = require('./package'),
-    scripts = {
-        all: [
-            'src/*.js',
-            'gulpfile.js',
-            'docs/js/main.js'
-        ],
-        src: 'src/*.js',
-        docs: 'docs/js',
-        dest: 'dist/js'
+console.log(process);
+const paths = {
+    docs: {
+        images: 'docs/images',
+        js: 'docs/js',
+        css: 'docs/css'
     },
-    styles = {
+    images: {
+        src: 'src/images/*.png',
+        dest: 'dist/images'
+    },
+    styles: {
         src: 'src/css/*.css',
-        docs: 'docs/css',
         dest: 'dist/css'
     },
-    images = {
-        src: 'src/images/*.png',
-        docs: 'docs/images',
-        dest: 'dist/images'
-    };
+    scripts: {
+        src: 'src/*.js',
+        dest: 'dist/js'
+    }
+};
 
-gulp.task('jshint', function () {
-    return gulp.src(scripts.all)
-        .pipe(plugins.jshint())
-        .pipe(plugins.jshint.reporter('default'));
-});
+/*
+ * For small tasks you can export arrow functions
+ */
+export const clean = () => del(['dist']);
 
-gulp.task('jscs', function () {
-    return gulp.src(scripts.all)
-        .pipe(plugins.jscs());
-});
+/*
+ * You can also declare named functions and export them as tasks
+ */
+export function styles() {
+    return gulp.src(paths.styles.src)
+        .pipe(cssmin())
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        // pass in options to the stream
+        .pipe(gulp.dest(paths.styles.dest))
+        .pipe(gulp.dest(paths.docs.css));
+}
 
-gulp.task('js', ['jshint', 'jscs', 'copy'], function () {
-    return gulp.src(scripts.src)
-        .pipe(plugins.replace(/@\w+/g, function (placeholder) {
-            switch (placeholder) {
+export const copyImages = () => gulp.src(paths.images.src)
+    .pipe(gulp.dest(paths.docs.images))
+    .pipe(gulp.dest(paths.images.dest));
+
+export function scripts() {
+    return gulp.src(paths.scripts.src, {sourcemaps: true})
+        .pipe(babel({
+            presets: ['@babel/preset-env']
+        }))
+        .pipe(uglify())
+        .pipe(rename({
+            suffix: '.min'
+        }))
+        .pipe(gulp.dest(paths.scripts.dest))
+        .pipe(gulp.dest(paths.docs.js));
+}
+
+export function copySource() {
+
+    let version;
+
+    gulp.src('./package.json')
+        .pipe(edit(function (json) {
+            version = json.version;
+        }));
+
+    return gulp.src(paths.scripts.src)
+        .pipe(replace(/@\w+/g, function (placeHolder) {
+            switch (placeHolder) {
                 case '@VERSION':
-                    placeholder = pkg.version;
+                    placeHolder = version;
                     break;
 
                 case '@YEAR':
-                    placeholder = (new Date()).getFullYear();
+                    placeHolder = (new Date()).getFullYear();
                     break;
 
                 case '@DATE':
-                    placeholder = (new Date()).toISOString();
+                    placeHolder = (new Date()).toISOString();
                     break;
             }
-
-            return placeholder;
+            return placeHolder;
         }))
-        .pipe(gulp.dest(scripts.docs))
-        .pipe(gulp.dest(scripts.dest))
-        .pipe(plugins.rename({
-            suffix: '.min'
-        }))
-        .pipe(plugins.uglify({
-            preserveComments: 'license'
-        }))
-        .pipe(gulp.dest(scripts.dest));
-});
+        .pipe(gulp.dest(paths.scripts.dest))
+        .pipe(gulp.dest(paths.docs.js));
+}
 
-gulp.task('jscopy', function () {
-    return gulp.src(scripts.src)
-        .pipe(gulp.dest(scripts.docs))
-        .pipe(gulp.dest(scripts.dest));
-});
-gulp.task('csscopy', function () {
-    return gulp.src(styles.src)
-        .pipe(gulp.dest(styles.docs))
-        .pipe(gulp.dest(styles.dest));
-});
-gulp.task('imagecopy', function () {
-    return gulp.src(images.src)
-        .pipe(gulp.dest(images.docs))
-        .pipe(gulp.dest(images.dest));
-});
 
-gulp.task('copy', ['jscopy', 'csscopy', 'imagecopy'], function () {
-});
-
-gulp.task('docs', function () {
-    return gulp.src('docs/**')
-        .pipe(gulp.dest('_gh_pages'));
-});
-
-gulp.task('release', ['js', 'docs'], function () {
-    return gulp.src('dist/**/*')
-        .pipe(gulp.dest('_releases/' + pkg.version));
-});
-
-gulp.task('watch', function () {
-    gulp.watch(scripts.src, ['jscopy']);
-    gulp.watch(styles.src, ['csscopy']);
-});
-
-gulp.task('default', ['watch']);
+const build = gulp.series(clean, gulp.parallel(scripts, styles, copyImages, copySource));
+/*
+ * Export a default task
+ */
+export default build;

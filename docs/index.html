@@ -10,7 +10,7 @@
     <meta name="author" content="Tao Shi">
     <title>city-picker</title>
     <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
-    <link href="css/city-picker.css" rel="stylesheet">
+    <link href="css/city-picker.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -78,14 +78,14 @@
     <h3>Level</h3>
     <h5>HTML:</h5>
     <pre class="prettyprint">&lt;div style="position: relative;"&gt;&lt;!-- container --&gt;
-  &lt;input readonly type="text" data-toggle="city-picker" placeholder="请选择省/市" data-level="city" &gt;
+  &lt;input readonly type="text" data-toggle="city-picker" placeholder="请选择省/市" data-level="village" &gt;
 &lt;/div&gt;</pre>
 
     <h5>Demo:</h5>
 
     <form class="form-inline">
         <div style="position: relative;">
-            <input class="form-control" readonly type="text" data-toggle="city-picker" data-level="city"
+            <input class="form-control" style="width: 50%" readonly type="text" data-toggle="city-picker" data-level="village"
                    placeholder="请选择省/市">
         </div>
     </form>
@@ -243,8 +243,15 @@
 <!-- Scripts -->
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.js"></script>
 <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.js"></script>
-<script src="js/city-picker.data.js"></script>
-<script src="js/city-picker.js"></script>
+<script src="js/city-picker.data.min.js"></script>
+<script src="js/city-picker-beijing.data.min.js" async></script>
+<script src="js/city-picker-shanghai.data.min.js" async></script>
+<script src="js/city-picker-taiyuan.data.min.js" async></script>
+<script src="js/city-picker-xiamen.data.min.js" async></script>
+<script src="js/city-picker.min.js"></script>
+<script>
+    $.fn.citypicker.Constructor.DEFAULTS.level = 'district';
+</script>
 <script src="js/main.js"></script>
 </body>
 </html>

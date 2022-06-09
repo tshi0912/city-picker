@@ -1,11 +1,11 @@
 /*!
- * Distpicker v1.2.0
+ * Distpicker v1.3.0
  * https://github.com/tshi0912/city-picker
  *
- * Copyright (c) 2014-2018 Tao Shi
+ * Copyright (c) 2014-2020 Tao Shi
  * Released under the MIT license
  *
- * Date: 2018-04-12T04:27:10.483Z
+ * Date: 2020-07-21T04:06:15.540Z
  */
 
 (function (factory) {
